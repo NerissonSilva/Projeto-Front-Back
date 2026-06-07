@@ -16,10 +16,7 @@ export default function Login() {
     mutationFn: loginUser,
 
     onSuccess: (data) => {
-    
       localStorage.setItem("token", data.token);
-
-      
       router.push("/");
     },
 
@@ -29,36 +26,55 @@ export default function Login() {
   });
 
   return (
-    <div className="container">
-      <h1>Login</h1>
+    <>
+      <div className="hero-section">
+        <div className="book-icon">📚</div>
+        <h1>Biblioteca Pessoal</h1>
+        <p>
+          Organize sua coleção de livros, marque os já lidos e mantenha um
+          registro pessoal de sua jornada literária. Sua biblioteca digital
+          completa em um só lugar.
+        </p>
+      </div>
 
-      <input
-        placeholder="Usuário"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      <div className="container">
+        <h1>Entrar na Biblioteca</h1>
+        <p className="subtitle">Acesse sua coleção de livros</p>
 
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          placeholder="Nome de usuário"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-      <button
-        onClick={() =>
-          loginMutation.mutate({
-            username,
-            password,
-          })
-        }
-      >
-        Entrar
-      </button>
+        <input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <p style={{ marginTop: "15px", textAlign: "center", fontSize: "14px" }}>
-        Não tem uma conta? <Link href="/signup" style={{ color: "#0070f3", textDecoration: "underline" }}>Cadastre-se (Sign Up)</Link>
-      </p>
-    </div>
+        <button
+          onClick={() =>
+            loginMutation.mutate({
+              username,
+              password,
+            })
+          }
+        >
+          Entrar
+        </button>
+
+        <div className="divider"></div>
+
+        <p className="link-text">
+          Não tem uma conta? <Link href="/signup">Cadastre-se</Link>
+        </p>
+
+        <p className="link-text">
+          <Link href="/esqueci-senha">Esqueci minha senha</Link>
+        </p>
+      </div>
+    </>
   );
 }

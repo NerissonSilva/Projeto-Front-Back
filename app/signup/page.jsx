@@ -17,7 +17,7 @@ export default function Signup() {
   const signupMutation = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
-      alert("Cadastro realizado com sucesso! Faça login para continuar.");
+      alert("Cadastro realizado com sucesso! Faça login para acessar sua biblioteca.");
       router.push("/login");
     },
     onError: (error) => {
@@ -47,48 +47,63 @@ export default function Signup() {
   };
 
   return (
-    <div className="container">
-      <h1>Cadastrar Usuário</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Nome de Usuário"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+    <>
+      <div className="hero-section">
+        <div className="book-icon">📖</div>
+        <h1>Bem-vindo à Biblioteca Pessoal</h1>
+        <p>
+          Crie sua conta e comece a organizar sua coleção de livros hoje mesmo.
+          Marque livros lidos, adicione notas e acompanhe seu progresso de leitura.
+        </p>
+      </div>
 
-        <input
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+      <div className="container">
+        <h1>Criar Conta</h1>
+        <p className="subtitle">Inicie sua biblioteca digital</p>
 
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            placeholder="Nome de usuário"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
 
-        <input
-          type="password"
-          placeholder="Confirmar Senha"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
+          <input
+            type="email"
+            placeholder="E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <button type="submit" style={{ width: "100%" }} disabled={signupMutation.isPending}>
-          {signupMutation.isPending ? "Cadastrando..." : "Cadastrar (Sign Up)"}
-        </button>
-      </form>
+          <input
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-      <p style={{ marginTop: "15px", textAlign: "center", fontSize: "14px" }}>
-        Já tem uma conta? <Link href="/login" style={{ color: "#0070f3", textDecoration: "underline" }}>Faça Login</Link>
-      </p>
-    </div>
+          <input
+            type="password"
+            placeholder="Confirmar senha"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+
+          <button type="submit" disabled={signupMutation.isPending}>
+            {signupMutation.isPending ? "Criando conta..." : "Criar Conta"}
+          </button>
+        </form>
+
+        <div className="divider"></div>
+
+        <p className="link-text">
+          Já tem uma conta? <Link href="/login">Faça login</Link>
+        </p>
+      </div>
+    </>
   );
 }

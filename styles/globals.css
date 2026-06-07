@@ -1,30 +1,135 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  background-color: #e8e8e8;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-  width: 400px;
+  width: 450px;
   margin: 30px auto;
   background: white;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 25px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #6b4423;
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.hero-section {
+  background-color: #8b7355;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.hero-section h1 {
+  color: white;
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.hero-section p {
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 input {
   width: 100%;
   padding: 10px;
-  margin: 5px 0;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+input:focus {
+  outline: none;
+  border-color: #8b7355;
 }
 
 button {
-  padding: 10px;
+  width: 100%;
+  padding: 12px;
   margin-top: 10px;
+  background-color: #8b7355;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 15px;
   cursor: pointer;
+}
+
+button:hover {
+  background-color: #6b5435;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.link-text {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.link-text a {
+  color: #8b7355;
+  text-decoration: underline;
 }
 
 .task {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  align-items: center;
+  margin: 12px 0;
+  padding: 12px;
+  background: #f9f9f9;
+  border-radius: 3px;
+  border-left: 3px solid #daa520;
+}
+
+.book-icon {
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.divider {
+  height: 1px;
+  background-color: #ddd;
+  margin: 25px 0;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .hero-section {
+    padding: 30px 15px;
+  }
 }

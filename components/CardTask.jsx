@@ -1,24 +1,37 @@
-
 export function CardTask({ task, onDelete, onCheck }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "10px",
-        margin: "10px 0",
-        alignItems: "center",
-      }}
-    >
-      <span>{task.description}</span>
+    <div className="task">
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <input
+          type="checkbox"
+          checked={task.done}
+          onChange={() => onCheck(task)}
+          style={{ 
+            width: "18px", 
+            height: "18px", 
+            cursor: "pointer"
+          }}
+        />
+        <span style={{ 
+          textDecoration: task.done ? "line-through" : "none",
+          color: task.done ? "#999" : "#333"
+        }}>
+          {task.done ? "✓ " : "📖 "}
+          {task.description}
+        </span>
+      </div>
 
-      <input
-        type="checkbox"
-        checked={task.done}
-        onChange={() => onCheck(task)}
-      />
-
-      <button onClick={() => onDelete(task.objectId)}>
-        Excluir
+      <button
+        onClick={() => onDelete(task.objectId)}
+        style={{
+          width: "auto",
+          padding: "8px 15px",
+          fontSize: "13px",
+          margin: 0,
+          background: "#c0504d"
+        }}
+      >
+        Remover
       </button>
     </div>
   );
