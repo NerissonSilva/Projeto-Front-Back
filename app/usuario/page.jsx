@@ -8,8 +8,8 @@ import { CardTask } from "../../components/CardTask";
 
 export default function Usuario() {
   const [description, setDescription] = useState("");
-  const [editingId, setEditingId] = useState(null);       
-  const [editingText, setEditingText] = useState("");      
+  const [editingId, setEditingId] = useState(null);
+  const [editingText, setEditingText] = useState("");
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -35,7 +35,7 @@ export default function Usuario() {
     mutationFn: updateTask,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
   });
-  
+
   const favoriteMutation = useMutation({
     mutationFn: ({ objectId, favorite }) =>
       updateTask({ objectId, favorite: !favorite }),
@@ -44,7 +44,7 @@ export default function Usuario() {
 
   const renameMutation = useMutation({
     mutationFn: ({ objectId, description }) =>
-      updateTask({ objectId, description }),        
+      updateTask({ objectId, description }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setEditingId(null);
@@ -94,20 +94,22 @@ export default function Usuario() {
       </div>
 
       <div className="container">
-         <button
-            onClick={() => router.push("/favoritos")}
-              style={{ width: "auto", padding: "10px 20px", fontSize: "0.9rem", background: "#f5c518", color: "#333" }}
-          >
-          ⭐ Favoritos
-        </button>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <h1 style={{ margin: 0 }}>Meus Livros</h1>
-          <button
-            onClick={() => logoutMutation.mutate()}
-            style={{ width: "auto", padding: "10px 20px", fontSize: "0.9rem" }}
-          >
-            Sair
-          </button>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              onClick={() => router.push("/favoritos")}
+              style={{ width: "auto", padding: "10px 20px", fontSize: "0.9rem", background: "#f5c518", color: "#333" }}
+            >
+              ⭐ Favoritos
+            </button>
+            <button
+              onClick={() => logoutMutation.mutate()}
+              style={{ width: "auto", padding: "10px 20px", fontSize: "0.9rem" }}
+            >
+              Sair
+            </button>
+          </div>
         </div>
 
         <p className="subtitle">Adicione livros à sua coleção</p>
@@ -141,12 +143,12 @@ export default function Usuario() {
               task={task}
               onDelete={deleteMutation.mutate}
               onCheck={updateMutation.mutate}
-              // Props para controlar o modo de edição
+              onFavorite={(t) => favoriteMutation.mutate({ objectId: t.objectId, favorite: t.favorite })}
               isEditing={editingId === task.objectId}
               editingText={editingText}
               onEditStart={() => {
                 setEditingId(task.objectId);
-                setEditingText(task.description);  // pré-preenche com o nome atual
+                setEditingText(task.description);
               }}
               onEditChange={(text) => setEditingText(text)}
               onEditSave={() => {
