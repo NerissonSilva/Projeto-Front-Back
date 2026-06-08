@@ -2,7 +2,6 @@ export function CardTask({ task, onDelete, onCheck, isEditing, editingText, onEd
   return (
     <div className="task">
       {isEditing ? (
-     
         <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}>
           <input
             type="text"
@@ -17,19 +16,18 @@ export function CardTask({ task, onDelete, onCheck, isEditing, editingText, onEd
           />
           <button
             onClick={onEditSave}
-            style={{ width: "auto", padding: "8px 15px", fontSize: "13px", margin: 0, background: "#4caf50" }}
+            style={{ width: "auto", padding: "8px 15px", fontSize: "13px", margin: 0, marginTop: 0, background: "#4caf50" }}
           >
             Salvar
           </button>
           <button
             onClick={onEditCancel}
-            style={{ width: "auto", padding: "8px 15px", fontSize: "13px", margin: 0, background: "#999" }}
+            style={{ width: "auto", padding: "8px 15px", fontSize: "13px", margin: 0, marginTop: 0, background: "#999" }}
           >
             Cancelar
           </button>
         </div>
       ) : (
-      
         <>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <input
@@ -49,13 +47,13 @@ export function CardTask({ task, onDelete, onCheck, isEditing, editingText, onEd
           <div style={{ display: "flex", gap: "8px" }}>
             <button
               onClick={onEditStart}
-              style={{ width: "auto", padding: "8px 15px", fontSize: "13px", margin: 0, background: "#f0ad4e" }}
+              style={{ width: "auto", padding: "8px 15px", fontSize: "13px", margin: 0, marginTop: 0, background: "#f0ad4e" }}
             >
               Editar
             </button>
             <button
               onClick={() => onDelete(task.objectId)}
-              style={{ width: "auto", padding: "8px 15px", fontSize: "13px", margin: 0, background: "#c0504d" }}
+              style={{ width: "auto", padding: "8px 15px", fontSize: "13px", margin: 0, marginTop: 0, background: "#c0504d" }}
             >
               Remover
             </button>
