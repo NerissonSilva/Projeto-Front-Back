@@ -1,27 +1,30 @@
-"use client";
+""use client";
 
-import { loginUser } from "../../api";
+import { userLogin } from "@/api";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useUserStorage } from "@/zustand";
+import styles from "./login.module.css"; 
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const router = useRouter();
+  const setLoggedUser = useUserStorage((state) => state.setLoggedUser);
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
 
   const loginMutation = useMutation({
-    mutationFn: loginUser,
+    mutationFn: userLogin,
 
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      router.push("/");
+      console.log("user data received from back4app:", user, data);
+      setLoggedUser(data);
+      router.replace("/");
     },
 
-    onError: () => {
-      alert("Usuário ou senha inválidos");
+    onError: (error) => {
+      alert("Erro de Login. Erro: " + error.message);
     },
   });
 
