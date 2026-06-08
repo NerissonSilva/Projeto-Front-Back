@@ -1,95 +1,73 @@
 "use client";
-
-import { addTask, deleteTask, getTasks, updateTask, logoutUser } from "../../api";
-
+ 
 import { useState } from "react";
-
-import { CardTask } from "../../components/CardTask";
 import { useRouter } from "next/navigation";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-
-export default function Home() {
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { addTask, deleteTask, getTasks, updateTask, logoutUser } from "../../api";
+import { CardTask } from "../../components/CardTask";
+ 
 export default function Usuario() {
   const [description, setDescription] = useState("");
   const router = useRouter();
-
   const queryClient = useQueryClient();
-
-@@ -44,60 +44,88 @@ export default function Home() {
+ 
+  // Busca os livros (tarefas) do banco
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["tasks"],
+    queryFn: getTasks,
   });
-
+ 
+  // Mutação para adicionar livro
+  const addMutation = useMutation({
+    mutationFn: addTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      setDescription(""); // Limpa o input após adicionar
+    },
+  });
+ 
+  // Mutação para deletar livro
+  const deleteMutation = useMutation({
+    mutationFn: deleteTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+ 
+  // Mutação para marcar como lido (check)
+  const updateMutation = useMutation({
+    mutationFn: updateTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+ 
+  // Mutação para deslogar
   const logoutMutation = useMutation({
-  mutationFn: logoutUser,
-  onSuccess: () => {
-    queryClient.clear(); 
-  },
     mutationFn: logoutUser,
     onSuccess: () => {
       queryClient.clear();
       router.push("/login");
     },
   });
-   
-
+ 
   if (isLoading) {
-    return <p>Carregando...</p>;
     return (
       <div className="container">
         <p style={{ textAlign: "center" }}>Carregando sua biblioteca...</p>
       </div>
     );
   }
-
+ 
   if (error) {
-    return <p>Erro ao carregar tarefas.</p>;
     return (
       <div className="container">
         <p style={{ textAlign: "center", color: "red" }}>Erro ao carregar livros.</p>
       </div>
     );
   }
-
+ 
   return (
-    <div className="container">
-      <h1>Lista de Tarefas</h1>
-
-      <button onClick={() => logoutMutation.mutate()}>
-        Logout
-      </button>
-
-      <br />
-      <br />
-
-      <input
-        type="text"
-        placeholder="Nova tarefa"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-
-      <button
-        onClick={() =>
-          addMutation.mutate({
-            description,
-            done: false,
-          })
-        }
-      >
-        Adicionar
-      </button>
-
-      <hr />
-
-      {data?.results?.map((task) => (
-        <CardTask
-          key={task.objectId}
-          task={task}
-          onDelete={deleteMutation.mutate}
-          onCheck={updateMutation.mutate}
     <>
       <div className="hero-section">
         <div className="book-icon">📚</div>
@@ -99,7 +77,7 @@ export default function Usuario() {
           Mantenha um registro completo de sua jornada literária.
         </p>
       </div>
-
+ 
       <div className="container">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <h1 style={{ margin: 0 }}>Meus Livros</h1>
@@ -110,31 +88,30 @@ export default function Usuario() {
             Sair
           </button>
         </div>
-
+ 
         <p className="subtitle">Adicione livros à sua coleção</p>
-
+ 
         <input
           type="text"
           placeholder="Nome do livro..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-      ))}
-    </div>
-
+ 
         <button
-          onClick={() =>
+          onClick={() => {
+            if (description.trim() === "") return;
             addMutation.mutate({
               description,
               done: false,
-            })
-          }
+            });
+          }}
         >
-          📖 Adicionar Livro
+          📚 Adicionar Livro
         </button>
-
+ 
         <div className="divider"></div>
-
+ 
         {data?.results?.length === 0 ? (
           <p style={{ textAlign: "center", color: "#999", fontStyle: "italic" }}>
             Sua biblioteca está vazia. Adicione seu primeiro livro!
