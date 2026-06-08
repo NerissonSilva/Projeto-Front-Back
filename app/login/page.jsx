@@ -17,7 +17,7 @@ export default function Login() {
 
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
-      router.push("/");
+      router.push("/usuario");
     },
 
     onError: () => {
