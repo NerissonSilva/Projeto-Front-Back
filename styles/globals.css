@@ -4,10 +4,6 @@ body {
   margin: 0;
   padding: 0;
 }
-.task button {
-  width: auto !important;
-  margin-top: 0 !important;
-}
 
 .container {
   width: 450px;
@@ -136,4 +132,9 @@ button:disabled {
   .hero-section {
     padding: 30px 15px;
   }
+}
+
+.task button {
+  width: auto !important;
+  margin-top: 0 !important;
 }
