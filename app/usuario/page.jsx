@@ -58,14 +58,19 @@ export default function Usuario() {
       </div>
     );
   }
- 
-  if (error) {
-    return (
-      <div className="container">
-        <p style={{ textAlign: "center", color: "red" }}>Erro ao carregar livros.</p>
-      </div>
-    );
-  }
+ if (error) {
+  return (
+    <div className="container">
+      <p style={{ textAlign: "center", color: "red" }}>Erro ao carregar livros.</p>
+      <button
+        onClick={() => router.push("/login")}
+        style={{ width: "auto", padding: "10px 20px", margin: "0 auto", display: "block" }}
+      >
+        Voltar para o Login
+      </button>
+    </div>
+  );
+}
  
   return (
     <>
