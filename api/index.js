@@ -38,8 +38,12 @@ export async function registerUser(user) {
 }
 
 export async function loginUser({ username, password }) {
-  const response = await api.get(
-    `/login?username=${username}&password=${password}`
+  const response = await api.post(
+    "/login",
+    {
+      username,
+      password,
+    }
   );
 
   localStorage.setItem("sessionToken", response.data.sessionToken);
