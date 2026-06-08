@@ -4,6 +4,10 @@ body {
   margin: 0;
   padding: 0;
 }
+.task button {
+  width: auto !important;
+  margin-top: 0 !important;
+}
 
 .container {
   width: 450px;
