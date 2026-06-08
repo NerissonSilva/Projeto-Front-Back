@@ -3,6 +3,8 @@ import axios from "axios";
 const api = axios.create({
   baseURL: "https://parseapi.back4app.com",
   headers: {
+    "X-Parse-Application-Id": process.env.NEXT_PUBLIC_BACK4APP_APP_ID || "UtvEQJs7CunvfkxzP3yPlX4jbqZxA8Kej3vFRGF8",
+    "X-Parse-REST-API-Key": process.env.NEXT_PUBLIC_BACK4APP_REST_KEY || "KdYdm1xRplRU8GkSl6Eofxs2xR7yEQZ0LgxnrvBJ",
     "X-Parse-Application-Id": "UtvEQJs7CunvfkxzP3yPlX4jbqZxA8Kej3vFRGF8",
     "X-Parse-REST-API-Key": "KdYdm1xRplRU8GkSl6Eofxs2xR7yEQZ0LgxnrvBJ",
     "Content-Type": "application/json",
@@ -38,6 +40,12 @@ export async function registerUser(user) {
 }
 
 export async function loginUser({ username, password }) {
+  const response = await api.post(
+    "/login",
+    {
+      username,
+      password,
+    }
   const response = await api.get(
     `/login?username=${username}&password=${password}`
   );
