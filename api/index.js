@@ -102,3 +102,12 @@ export async function logoutUser() {
 export async function forgotPassword(email) {
   return await api.post("/requestPasswordReset", { email });
 }
+export async function updateTask({ objectId, done, description }) {
+  const body = {};
+
+  if (description !== undefined) body.description = description;  
+  if (done !== undefined) body.done = !done;                       
+
+  const response = await api.put(`/classes/Task/${objectId}`, body);
+  return response.data;
+}
