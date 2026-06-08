@@ -1,80 +1,97 @@
-"use client";
+""use client";
 
-import { loginUser } from "../../api";
+import { userLogin } from "@/api";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useUserStorage } from "@/zustand";
+// Importando o arquivo CSS Module
+import styles from "./login.module.css"; 
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   const router = useRouter();
-
+  const setLoggedUser = useUserStorage((state) => state.setLoggedUser);
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+  
   const loginMutation = useMutation({
-    mutationFn: loginUser,
-
+    mutationFn: userLogin,
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      router.push("/usuario");
+      console.log("user data received from back4app:", user, data);
+      setLoggedUser(data);
+      router.replace("/");
     },
-
-    onError: () => {
-      alert("Usuário ou senha inválidos");
+    onError: (error) => {
+      alert("Erro de Login. Erro: " + error.message);
     },
   });
 
+  const handleChange = (evt) => {
+    setUser({ ...user, [evt.target.name]: evt.target.value });
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (!user.username || !user.password) {
+      alert("Preencha todos os campos");
+      return;
+    }
+    loginMutation.mutate(user);
+  };
+
   return (
-    <>
-      <div className="hero-section">
-        <div className="book-icon">📚</div>
-        <h1>Biblioteca Pessoal</h1>
-        <p>
-          Organize sua coleção de livros, marque os já lidos e mantenha um
-          registro pessoal de sua jornada literária. Sua biblioteca digital
-          completa em um só lugar.
-        </p>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        {/* Corrigido o título de 'Sign Up' para 'Login' condizente com a tela */}
+        <h1 className={styles.title}>Acessar Conta</h1>
+        
+        <form onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <label className={styles.label} htmlFor="username">Nome do usuário</label>
+            <input
+              id="username"
+              name="username"
+              placeholder="Digite seu usuário"
+              value={user.username}
+              onChange={handleChange}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label className={styles.label} htmlFor="password">Senha</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Digite sua senha"
+              value={user.password}
+              onChange={handleChange}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.buttonGroup}>
+            <button 
+              type="submit" 
+              className={styles.buttonSubmit}
+              disabled={loginMutation.isPending}
+            >
+              {loginMutation.isPending ? "Autenticando..." : "Login"}
+            </button> 
+            
+            <button 
+              type="button" 
+              className={styles.buttonCancel} 
+              onClick={() => router.replace("/")}
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
       </div>
-
-      <div className="container">
-        <h1>Entrar na Biblioteca</h1>
-        <p className="subtitle">Acesse sua coleção de livros</p>
-
-        <input
-          placeholder="Nome de usuário"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button
-          onClick={() =>
-            loginMutation.mutate({
-              username,
-              password,
-            })
-          }
-        >
-          Entrar
-        </button>
-
-        <div className="divider"></div>
-
-        <p className="link-text">
-          Não tem uma conta? <Link href="/signup">Cadastre-se</Link>
-        </p>
-
-        <p className="link-text">
-          <Link href="/esqueci-senha">Esqueci minha senha</Link>
-        </p>
-      </div>
-    </>
+    </div>
   );
 }
