@@ -38,7 +38,7 @@ export default function Login() {
         </p>
       </div>
 
-      <div className={styles.container}>
+      <div className={.container}>
         <h1>Entrar na Biblioteca</h1>
         <p className="subtitle">Acesse sua coleção de livros</p>
 
