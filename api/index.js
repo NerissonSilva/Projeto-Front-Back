@@ -9,13 +9,54 @@ const api = axios.create({
   },
 });
 
+
+api.interceptors.request.use((config) => {
+  const sessionToken = localStorage.getItem("sessionToken");
+  if (sessionToken) {
+    config.headers["X-Parse-Session-Token"] = sessionToken;
+  }
+  return config;
+});
+
+
+function getCurrentUser() {
+  const user = localStorage.getItem("currentUser");
+  return user ? JSON.parse(user) : null;
+}
+
 export async function getTasks() {
-  const response = await api.get("/classes/Task");
+  const user = getCurrentUser();
+
+ 
+  const where = encodeURIComponent(
+    JSON.stringify({
+      owner: {
+        __type: "Pointer",
+        className: "_User",
+        objectId: user.objectId,
+      },
+    })
+  );
+
+  const response = await api.get(`/classes/Task?where=${where}`);
   return response.data;
 }
 
 export async function addTask(task) {
-  const response = await api.post("/classes/Task", task);
+  const user = getCurrentUser();
+
+  const response = await api.post("/classes/Task", {
+    ...task,
+    owner: {
+      __type: "Pointer",
+      className: "_User",
+      objectId: user.objectId,
+    },
+   
+    ACL: {
+      [user.objectId]: { read: true, write: true },
+    },
+  });
   return response.data;
 }
 
@@ -28,7 +69,6 @@ export async function updateTask({ objectId, done }) {
   const response = await api.put(`/classes/Task/${objectId}`, {
     done: !done,
   });
-
   return response.data;
 }
 
@@ -41,30 +81,24 @@ export async function loginUser({ username, password }) {
   const response = await api.get(
     `/login?username=${username}&password=${password}`
   );
-
   localStorage.setItem("sessionToken", response.data.sessionToken);
-
+  localStorage.setItem("currentUser", JSON.stringify(response.data));
   return response.data;
 }
 
 export async function logoutUser() {
   const sessionToken = localStorage.getItem("sessionToken");
-
   await api.post(
     "/logout",
     {},
     {
-      headers: {
-        "X-Parse-Session-Token": sessionToken,
-      },
+      headers: { "X-Parse-Session-Token": sessionToken },
     }
   );
-
   localStorage.removeItem("sessionToken");
+  localStorage.removeItem("currentUser");
 }
 
 export async function forgotPassword(email) {
-  return await api.post("/requestPasswordReset", {
-    email,
-  });
+  return await api.post("/requestPasswordReset", { email });
 }
