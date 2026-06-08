@@ -44,7 +44,7 @@ export default function Login() {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        {/* Corrigido o título de 'Sign Up' para 'Login' condizente com a tela */}
+        
         <h1 className={styles.title}>Acessar Conta</h1>
         
         <form onSubmit={handleSubmit}>
