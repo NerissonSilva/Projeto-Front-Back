@@ -94,6 +94,12 @@ export default function Usuario() {
       </div>
 
       <div className="container">
+         <button
+            onClick={() => router.push("/favoritos")}
+              style={{ width: "auto", padding: "10px 20px", fontSize: "0.9rem", background: "#f5c518", color: "#333" }}
+          >
+          ⭐ Favoritos
+        </button>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <h1 style={{ margin: 0 }}>Meus Livros</h1>
           <button
