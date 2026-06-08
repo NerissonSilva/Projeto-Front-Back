@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import styles from "./Login.module.css";
 
 export default function Login() {
   const [username, setUsername] = useState("");
