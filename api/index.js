@@ -111,3 +111,12 @@ export async function updateTask({ objectId, done, description }) {
   const response = await api.put(`/classes/Task/${objectId}`, body);
   return response.data;
 }
+export async function updateTask({ objectId, done, description, favorite }) {
+  const body = {};
+  if (description !== undefined) body.description = description;
+  if (done !== undefined) body.done = !done;
+  if (favorite !== undefined) body.favorite = favorite;
+
+  const response = await api.put(`/classes/Task/${objectId}`, body);
+  return response.data;
+}
