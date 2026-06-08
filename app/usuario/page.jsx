@@ -35,7 +35,12 @@ export default function Usuario() {
     mutationFn: updateTask,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
   });
-
+  
+  const favoriteMutation = useMutation({
+    mutationFn: ({ objectId, favorite }) =>
+      updateTask({ objectId, favorite: !favorite }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
+  });
 
   const renameMutation = useMutation({
     mutationFn: ({ objectId, description }) =>
