@@ -35,9 +35,11 @@ export default function Usuario() {
     mutationFn: updateTask,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
   });
+
+
   const renameMutation = useMutation({
     mutationFn: ({ objectId, description }) =>
-      updateTask({ objectId, description }),       
+      updateTask({ objectId, description }),        
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setEditingId(null);
@@ -128,12 +130,12 @@ export default function Usuario() {
               task={task}
               onDelete={deleteMutation.mutate}
               onCheck={updateMutation.mutate}
-        
+              // Props para controlar o modo de edição
               isEditing={editingId === task.objectId}
               editingText={editingText}
               onEditStart={() => {
                 setEditingId(task.objectId);
-                setEditingText(task.description); 
+                setEditingText(task.description);  // pré-preenche com o nome atual
               }}
               onEditChange={(text) => setEditingText(text)}
               onEditSave={() => {
